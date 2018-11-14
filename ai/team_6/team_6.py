@@ -95,8 +95,7 @@ class plate(object):
 
     def do_move(self, move):
         self.states[move] = self.current_player
-        if move in self.availables:
-            self.availables.remove(move)
+        self.availables.remove(move)
         self.current_player = (
             self.players[0] if self.current_player == self.players[1]
             else self.players[1]
@@ -372,7 +371,7 @@ class Ai(Player):
     def __init__(self, color, **kwargs):
         super(Ai, self).__init__(color)
         #self.mcts = MCTS(policy_value_fn, c_puct, n_playout)
-        self.mcts = MCTS(policy_value_fn, c_puct=5, n_playout=100)
+        self.mcts = MCTS(policy_value_fn, c_puct=5, n_playout=1000)
         self.player = 2
         try:
             size_x, size_y = kwargs['board_size']
@@ -397,9 +396,12 @@ class Ai(Player):
         if len(board.steps) < 169:
             move = self.mcts.get_move(platex)
             print(int(move/13), move%13)
-            #self.mcts.update_with_move(-1)
-            if board.is_legal_action(move/13, move%13):
+            self.mcts.update_with_move(-1)
+            if board.is_legal_action(int(move/13), move%13):
+                print("legal")
                 return int(move/13), move%13
+            else:
+                print("Fuck piece")
         else:
             print("WARNING: the board is full")
 

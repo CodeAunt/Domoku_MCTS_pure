@@ -22,12 +22,11 @@ def timeit(method, msg):
     return timed
 
 
-def exec_and_timeout_judge(board: Board, player: Player, color, timeout=500):
+def exec_and_timeout_judge(board: Board, player: Player, color, timeout=5000):
     if not isinstance(player, Human):
 
         def get_action_wrap(board_info, data_dict):
-            print("player")
-            print(player)
+            #print("xxxxxxxxxxxxxxxx:", player.get_action(board_info, timeout))
             x, y = player.get_action(board_info, timeout)
             data_dict['x'] = x
             data_dict['y'] = y
