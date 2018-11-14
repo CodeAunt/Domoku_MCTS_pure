@@ -95,7 +95,8 @@ class plate(object):
 
     def do_move(self, move):
         self.states[move] = self.current_player
-        self.availables.remove(move)
+        if move in self.availables:
+            self.availables.remove(move)
         self.current_player = (
             self.players[0] if self.current_player == self.players[1]
             else self.players[1]
@@ -225,7 +226,7 @@ class TreeNode(object):
         for action, prob in action_priors:
             if action not in self._children:
                 self._children[action] = TreeNode(self, prob)
-                print(action)
+
 
     def select(self, c_puct):
         """Select action among children that gives maximum action value Q
@@ -346,6 +347,8 @@ class MCTS(object):
         for n in range(self._n_playout):
             state_copy = copy.deepcopy(state)
             self._playout(state_copy)
+            print(n)
+        print("Judge done")
         return max(self._root._children.items(),
                    key=lambda act_node: act_node[1]._n_visits)[0]
 
@@ -370,6 +373,7 @@ class Ai(Player):
         super(Ai, self).__init__(color)
         #self.mcts = MCTS(policy_value_fn, c_puct, n_playout)
         self.mcts = MCTS(policy_value_fn, c_puct=5, n_playout=100)
+        self.player = 2
         try:
             size_x, size_y = kwargs['board_size']
             self.value = np.zeros((size_x, size_y))
@@ -392,9 +396,10 @@ class Ai(Player):
             return 6, 7
         if len(board.steps) < 169:
             move = self.mcts.get_move(platex)
-            self.mcts.update_with_move(-1)
+            print(int(move/13), move%13)
+            #self.mcts.update_with_move(-1)
             if board.is_legal_action(move/13, move%13):
-                return move/13, move%13
+                return int(move/13), move%13
         else:
             print("WARNING: the board is full")
 

@@ -18,6 +18,7 @@ class Player:
         Before function return, you need to call self.put(x, y) once.
         :return:
         """
+
         raise NotImplementedError
 
     def bind_gui(self, gui):
