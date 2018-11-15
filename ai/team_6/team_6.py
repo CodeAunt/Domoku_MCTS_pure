@@ -18,15 +18,24 @@ def rollout_policy_fn(board):
     action_probs = np.random.rand(len(board.availables))
     return zip(board.availables, action_probs)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 def policy_value_fn(board):
     """a function that takes in a state and outputs a list of (action, probability)
     tuples and a score for the state"""
     # return uniform probabilities and 0 score for pure MCTS
+<<<<<<< HEAD
     action_probs = np.ones(len(board.availables)) / len(board.availables)
     return zip(board.availables, action_probs), 0
 
 
+=======
+    action_probs = np.ones(len(board.availables))/len(board.availables)
+    return zip(board.availables, action_probs), 0
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 class plate(object):
     def __init__(self, **kwargs):
         self.width = int(kwargs.get('width', 13))
@@ -36,11 +45,19 @@ class plate(object):
         # value: player as pieces type
         self.states = {}
         # need how many pieces in a row to win
+<<<<<<< HEAD
         self.availables = list(range(self.width * self.height))
+=======
+        self.availables = []
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
         self.n_in_row = int(kwargs.get('n_in_row', 5))
         self.players = [1, 2]  # player1 and player2
         self.current_player = 2
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
     def init_board(self, start_player=0):
         if self.width < self.n_in_row or self.height < self.n_in_row:
             raise Exception('board width and height can not be '
@@ -109,8 +126,12 @@ class plate(object):
         states = self.states
         n = self.n_in_row
 
+<<<<<<< HEAD
         # moved = list(set(range(width * height)) - set(self.availables))
         moved = states.keys()
+=======
+        moved = list(set(range(width * height)) - set(self.availables))
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
         if len(moved) < self.n_in_row + 2:
             return False, -1
 
@@ -120,6 +141,7 @@ class plate(object):
             player = states[m]
 
             if (w in range(width - n + 1) and
+<<<<<<< HEAD
                         len(set(states.get(i, -1) for i in range(m, m + n))) == 1):
                 return True, player
 
@@ -133,6 +155,21 @@ class plate(object):
 
             if (w in range(n - 1, width) and h in range(height - n + 1) and
                         len(set(states.get(i, -1) for i in range(m, m + n * (width - 1), width - 1))) == 1):
+=======
+                    len(set(states.get(i, -1) for i in range(m, m + n))) == 1):
+                return True, player
+
+            if (h in range(height - n + 1) and
+                    len(set(states.get(i, -1) for i in range(m, m + n * width, width))) == 1):
+                return True, player
+
+            if (w in range(width - n + 1) and h in range(height - n + 1) and
+                    len(set(states.get(i, -1) for i in range(m, m + n * (width + 1), width + 1))) == 1):
+                return True, player
+
+            if (w in range(n - 1, width) and h in range(height - n + 1) and
+                    len(set(states.get(i, -1) for i in range(m, m + n * (width - 1), width - 1))) == 1):
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
                 return True, player
 
         return False, -1
@@ -149,7 +186,10 @@ class plate(object):
     def get_current_player(self):
         return self.current_player
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 # board dense 0 1
 # board steps (x, y) k/w
 
@@ -157,21 +197,34 @@ class plate(object):
 # board index and player
 def transform(board):
     states = {}
+<<<<<<< HEAD
     #availables = list(range(board.size_x * board.size_y))
+=======
+    availables = list(range(board.size_x * board.size_y))
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
     x = 0
     y = 0
     c = 'k'
     for step in board.steps:
         ((x, y), c) = step
+<<<<<<< HEAD
         states.update({(x * 13 + y): (2 if c == 'k' else 1)})
         #availables.remove(x * 13 + y)
     return states, x * 13 + y, (2 if c == 'k' else 1)
+=======
+        states.update({(x * 13 + y): (2 if c =='k' else 1 )})
+        availables.remove(x * 13 + y)
+    return states, availables, x * 13 + y, (2 if c =='k' else 1)
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 
     # availables = board.steps[]
     # board.dense
     # return
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 # def judge(board):
 #     width = board.width
 #     height = board.height
@@ -230,6 +283,10 @@ class TreeNode(object):
             if action not in self._children:
                 self._children[action] = TreeNode(self, prob)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
     def select(self, c_puct):
         """Select action among children that gives maximum action value Q
         plus bonus u(P).
@@ -246,7 +303,11 @@ class TreeNode(object):
         # Count visit.
         self._n_visits += 1
         # Update Q, a running average of values for all visits.
+<<<<<<< HEAD
         self._Q += 1.0 * (leaf_value - self._Q) / self._n_visits
+=======
+        self._Q += 1.0*(leaf_value - self._Q) / self._n_visits
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 
     def update_recursive(self, leaf_value):
         """Like a call to update(), but applied recursively for all ancestors.
@@ -300,8 +361,14 @@ class MCTS(object):
         State is modified in-place, so a copy must be provided.
         """
         node = self._root
+<<<<<<< HEAD
         while (1):
             if node.is_leaf():
+=======
+        while(1):
+            if node.is_leaf():
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
                 break
             # Greedily select next move.
             action, node = node.select(self._c_puct)
@@ -317,6 +384,10 @@ class MCTS(object):
         # Update value and visit count of nodes in this traversal.
         node.update_recursive(-leaf_value)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
     def _evaluate_rollout(self, state, limit=1000):
         """Use the rollout policy to play until the end of the game,
         returning +1 if the current player wins, -1 if the opponent wins,
@@ -365,6 +436,7 @@ class MCTS(object):
     def __str__(self):
         return "MCTS"
 
+<<<<<<< HEAD
 
 ##########################################################################
 
@@ -374,6 +446,16 @@ class Ai(Player):
         super(Ai, self).__init__(color)
         # self.mcts = MCTS(policy_value_fn, c_puct, n_playout)
         self.mcts = MCTS(policy_value_fn, c_puct=5, n_playout=600)
+=======
+##########################################################################
+
+#def UCTPlayGame():
+class Ai(Player):
+    def __init__(self, color, **kwargs):
+        super(Ai, self).__init__(color)
+        #self.mcts = MCTS(policy_value_fn, c_puct, n_playout)
+        self.mcts = MCTS(policy_value_fn, c_puct=5, n_playout=1000)
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
         self.player = 2
         try:
             size_x, size_y = kwargs['board_size']
@@ -389,6 +471,7 @@ class Ai(Player):
 
     def get_action(self, board: BoardInfo, timeout) -> (int, int):
         platex = plate(width=13, height=13, n_in_row=5)
+<<<<<<< HEAD
         platex.states, platex.last_move, platex.current_player = transform(board)
         steps = platex.states.keys()
         avastored = []
@@ -399,15 +482,29 @@ class Ai(Player):
         platex.availables = avastored
         platex.current_player = 3 - platex.current_player
         # sensiblves = plae_motex.availables
+=======
+        platex.states, platex.availables, platex.last_move, platex.current_player = transform(board)
+        platex.current_player = 3 - platex.current_player
+        sensible_moves = platex.availables
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
         if len(board.steps) == 0:
             return 6, 7
         if len(board.steps) < 169:
             move = self.mcts.get_move(platex)
+<<<<<<< HEAD
             print(int(move / 13), move % 13)
             self.mcts.update_with_move(-1)
             if board.is_legal_action(int(move / 13), move % 13):
                 print("legal")
                 return int(move / 13), move % 13
+=======
+            print(int(move/13), move%13)
+            self.mcts.update_with_move(-1)
+            if board.is_legal_action(int(move/13), move%13):
+                print("legal")
+                return int(move/13), move%13
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
             else:
                 print("Fuck piece")
         else:
@@ -416,7 +513,11 @@ class Ai(Player):
     def __str__(self):
         return "MCTS {}".format(self.player)
 
+<<<<<<< HEAD
         # def get_action(self, board: BoardInfo, timeout) -> (int, int):
+=======
+    #def get_action(self, board: BoardInfo, timeout) -> (int, int):
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
 
         """
             Implement your algorithm here.
@@ -437,3 +538,14 @@ class Ai(Player):
 #             return x, y
 #         else:
 #             continue
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1

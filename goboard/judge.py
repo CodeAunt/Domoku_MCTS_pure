@@ -22,10 +22,18 @@ def timeit(method, msg):
     return timed
 
 
+<<<<<<< HEAD
 def exec_and_timeout_judge(board: Board, player: Player, color, timeout=10): #5000
     if not isinstance(player, Human):
 
         def get_action_wrap(board_info, data_dict):
+=======
+def exec_and_timeout_judge(board: Board, player: Player, color, timeout=5000):
+    if not isinstance(player, Human):
+
+        def get_action_wrap(board_info, data_dict):
+            #print("xxxxxxxxxxxxxxxx:", player.get_action(board_info, timeout))
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
             x, y = player.get_action(board_info, timeout)
             data_dict['x'] = x
             data_dict['y'] = y
@@ -47,7 +55,11 @@ def exec_and_timeout_judge(board: Board, player: Player, color, timeout=10): #50
         except IndexError:
             raise Lose(player, "Running out of time, or exception/error occurs in Player.get_action()")
     else:
+<<<<<<< HEAD
         x, y = player.get_action(board.get_info(), timeout)
+=======
+        x, y = player.get_action(board.get_info())
+>>>>>>> 6aeca25084a81bb0cbe3b878b7240f6e0de7d1a1
         if color == 'white':
             board.put_white(x, y)
         elif color == 'black':
